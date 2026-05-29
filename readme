@@ -2,4 +2,7 @@
 保存version1.0----->test_pusch_v1.py
 pusch信道baseline校准，与sionna中的结果可以对齐，与nokia文稿中的结果可以对齐；
 2026/5/27:
-通过测试发送端的发送功率发现，在配置天线数=layer数的时候，也需要配置为codebook模式，否则发送功率不会归一化。sionna平台目前不支持非码本
+version1.0----->test_pusch_v1.py
+通过测试发送端的发送功率发现，在配置天线数=layer数的时候，也需要配置为codebook模式，否则发送功率不会归一化。
+sionna平台目前不支持非码本；
+发送功率：OFDM解调前线性平均功率应为1，即0db。
