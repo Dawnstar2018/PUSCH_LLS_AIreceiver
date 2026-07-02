@@ -1,3 +1,4 @@
+
 2026/5/26:
 保存version1.0----->test_pusch_v1.py
 pusch信道baseline校准,与sionna中的结果可以对齐,与nokia文稿中的结果可以对齐;
@@ -39,4 +40,8 @@ mmse代码位置：channe_estimation.py -- class IndustrialLMMSEInterpolator(Bas
 
 
 
+
+
+this is to record the progress of pusch channel link level simulation based on sionna.
+details of readme in every back up version.
 
