@@ -1,8 +1,42 @@
-2026/5/26：
+2026/5/26:
 保存version1.0----->test_pusch_v1.py
-pusch信道baseline校准，与sionna中的结果可以对齐，与nokia文稿中的结果可以对齐；
+pusch信道baseline校准,与sionna中的结果可以对齐,与nokia文稿中的结果可以对齐;
 2026/5/27:
 version1.0----->test_pusch_v1.py
-通过测试发送端的发送功率发现，在配置天线数=layer数的时候，也需要配置为codebook模式，否则发送功率不会归一化。
-sionna平台目前不支持非码本；
-发送功率：OFDM解调前线性平均功率应为1，即0db。
+通过测试发送端的发送功率发现，在配置天线数=layer数的时候,也需要配置为codebook模式,否则发送功率不会归一化。
+sionna平台目前不支持非码本;
+发送功率:OFDM解调前线性平均功率应为1,即0db。
+2026/5/28:
+version1.0----->test_pusch_v1.py
+AWGN信道下LS信道估计,与matalab链路平台MMSE信道估计结果相比,差1db左右
+
+2026/5/29:
+version1.0----->test_pusch_v1.py
+/home/zhouxx/miniforge3/envs/zxx_tf215/lib/python3.11/site-packages/sionna/phy/channel/awgn.py
+发现sionna 自带的awgn信道仅添加噪声,无法适配多天线,所以在awgn.py创建类AWGN_MIMO,但是还未校准，
+且是写死的H,不能灵活适配天线('待性能校准后更新自动适配天线').
+
+测试cdl信道下的性能,与sionna自带AWGN信道的性能做对比。
+相同配置下,2T4R_rank2_mcs14_10prb_cdl_ds100ns_1addsym_3p5GHZ_speed3ms_type1dmrs_tpmi1
+CDL信道性能为, 11db@bler=0.01
+AWGN信道性能为:6.85db@bler=0.01
+AWGN_MIMO信道性能为:2.45db@bler=0.01
+
+2026/07/01:
+对照matlab平台增加了时域信道添加AWGN噪声的代码（awgn.py），目前从发送端和接收端的功率测试来看，是正确的，但是译码不对；
+增加了matlab平台中的mmse信道估计算法，目前在AWGN_mimo信道下，配置为freq的时候可以正确译码，SNR为4db的时候BLER=0;
+mmse代码位置：channe_estimation.py -- class IndustrialLMMSEInterpolator(BaseChannelInterpolator).
+
+测试：2T4R_rank2_mcs14_10prb_ds100ns_1addsym_3p5GHZ_speed3ms_type1dmrs_tpmi0
+    |信道类型  |domain|channel_est|  CRC  |bler=0@snr|
+    |AWGN_MIMO| Freq  |   ls-lin |正确译码|    6     |
+    |AWGN_MIMO| Freq  |    mmse  |正确译码|    3     |
+    |CDL-C    | Freq  |  ls-lin  |正确译码|    12    |
+    |CDL-C    | Freq  |    mmse  |正确译码|    10    |
+    |CDL-C    | time  |    mmse  |正确译码|    10    |
+
+**遗留问题**：AWGN_MIMO信道的freq 的SNR有问题，time domain译码不正确
+
+
+
+
